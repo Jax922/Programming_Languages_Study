@@ -1,4 +1,5 @@
 # Morden-CPP-Self-Training
 
+Based on the book named <A Tour of C++> second edition.
 
-- 2023-01-14 : Variable types and namespace
+
