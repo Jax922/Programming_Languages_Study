@@ -1,5 +1,7 @@
-# Morden-CPP-Self-Training
-
-Based on the book named <A Tour of C++> second edition.
+# Description
+This repository is dedicated to studying and understanding the features of various programming languages, including but not limited to C++, Python.
+# REFERENCE
+* <A Tour of C++> second edition
+* RealPython (https://realpython.com/)
 
 

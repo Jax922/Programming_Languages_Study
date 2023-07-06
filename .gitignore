@@ -37,3 +37,7 @@ build
 *.swo
 
 .vs/
+
+
+.DS_Store
+build
