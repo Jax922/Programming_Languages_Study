@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - effects - parallax barrier</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<!-- <link type="text/css" rel="stylesheet" href="main.css"> -->
+        <style>
+            body {
+                margin: 0;
+            }
+        </style>
+	</head>
+
+	<body>
+
+		<!-- Import maps polyfill -->
+		<!-- Remove this when import maps will be widely supported -->
+
+        <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+
+        <script type="importmap">
+        {
+            "imports": {
+            "three": "https://unpkg.com/three@v0.149.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@v0.149.0/examples/jsm/"
+            }
+        }
+        </script>
+
+		<script type="module">
+
+            import * as THREE from 'three';
+
+            //  new scene
+            const scene = new THREE.Scene();
+
+            // camera setting
+            const camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 100 );
+            camera.position.z = 10;
+
+            // create renderer 
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+
+            const loader = new THREE.CubeTextureLoader();
+			loader.setPath( './textures/' );
+            let textureCube = loader.load( [ 'posx.jpg', 'negx.jpg', 'posy.jpg', 'negy.jpg', 'posz.jpg', 'negz.jpg' ] );
+
+            scene.background = textureCube;
+
+
+            // create spheres
+            const geometry = new THREE.SphereGeometry( 0.5, 32, 16 );
+            const material = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: textureCube } ); 
+            let spheres = [];
+
+            for ( let i = 0; i < 66; i ++ ) {
+
+                let mesh = new THREE.Mesh( geometry, material );
+
+                mesh.position.x = Math.random() * 10 - 5;
+                mesh.position.y = Math.random() * 10 - 5;
+                mesh.position.z = Math.random() * 10 - 5;
+                let scale = Math.random() * (3 - 0.1) + 0.5
+                mesh.scale.x = mesh.scale.y = mesh.scale.z = scale
+
+                scene.add( mesh );
+                spheres.push( mesh );
+
+            }
+            function animate() {
+                requestAnimationFrame( animate );
+                const timer = 0.0001 * Date.now();
+                for ( let i = 0, il = spheres.length; i < il; i ++ ) {
+
+                    const sphere = spheres[ i ];
+
+                    sphere.position.x = 5 * Math.cos( timer + i );
+                    sphere.position.y = 5 * Math.sin( timer + i * 1.1 );
+
+                }
+
+                renderer.render( scene, camera );
+            }
+
+            animate();
+
+		</script>
+
+	</body>
+</html>
